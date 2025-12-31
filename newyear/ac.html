@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Happy New Year Mahal ❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  width:100vw;height:100vh;overflow:hidden;
+  font-family:Verdana, sans-serif;
+  background:radial-gradient(circle at top,#0b1d3a 0%,#020111 70%,#000 100%);
+  color:#fff;
+}
+
+/* STARS */
+.stars{
+  position:absolute;inset:0;
+  background-image:
+    radial-gradient(2px 2px at 20% 30%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 80% 40%, #fff, transparent),
+    radial-gradient(1px 1px at 50% 80%, #fff, transparent);
+  animation:twinkle 6s infinite alternate;
+  z-index:1;
+}
+@keyframes twinkle{from{opacity:.6}to{opacity:1}}
+
+/* SNOW */
+.snowflake{
+  position:absolute;
+  top:-10px;
+  color:white;
+  opacity:.8;
+  animation:fall linear infinite;
+  pointer-events:none;
+  z-index:2;
+}
+@keyframes fall{to{transform:translateY(110vh)}}
+
+/* FIREWORKS */
+.firework{
+  position:absolute;
+  width:6px;height:6px;
+  border-radius:50%;
+  animation:explode 1.2s ease-out forwards;
+  z-index:3;
+}
+@keyframes explode{
+  from{transform:scale(0);opacity:1}
+  to{transform:scale(20);opacity:0}
+}
+
+/* HNY */
+.hny{
+  position:absolute;
+  top:20%;
+  width:100%;
+  text-align:center;
+  font-size:clamp(36px,6vw,72px);
+  font-weight:800;
+  opacity:0;
+  z-index:4;
+  animation:glow 2s infinite alternate;
+}
+@keyframes glow{
+  from{text-shadow:0 0 10px #ffd1dc}
+  to{text-shadow:0 0 35px #ff5f9e}
+}
+
+/* ENVELOPE */
+.envelope{
+  position:absolute;inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  opacity:0;
+  pointer-events:none;
+  z-index:5;
+}
+.envelope-box{
+  width:260px;height:170px;
+  background:linear-gradient(135deg,#fff,#eee);
+  border-radius:14px;
+  box-shadow:0 25px 60px rgba(0,0,0,.6);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  animation:float 3s infinite;
+  font-weight:800;
+  color:#ff5f9e;
+  text-align:center;
+}
+@keyframes float{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-15px)}
+}
+
+/* SLIDER */
+.slider{
+  position:absolute;
+  inset:0;
+  z-index:6;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  opacity:0;
+  pointer-events:none;
+  transition:.6s ease;
+}
+.slider.show{
+  opacity:1;
+  pointer-events:auto;
+}
+
+/* CARD SLIDES */
+.item{
+  width:420px;
+  max-width:90%;
+  background:rgba(255,95,158,.15);
+  border-radius:26px;
+  padding:18px;
+  display:none;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+  box-shadow:0 20px 55px rgba(255,95,158,.35);
+  margin-bottom:20px;
+}
+.item.active{display:flex}
+.item.animate{
+  animation:slideFade .7s ease .25s forwards;
+  opacity:0;
+}
+@keyframes slideFade{
+  from{opacity:0;transform:translateY(40px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* PHOTO */
+.photo{
+  width:100%;
+  height:300px;
+  border-radius:20px;
+  background-size:cover;
+  background-position:center;
+  margin-bottom:15px;
+}
+
+/* TEXT */
+.desc{
+  font-size:16.5px;
+  color:#ffd6e7;
+  line-height:1.55;
+}
+
+/* CONTROLS */
+.controls{
+  position:fixed;
+  bottom:25px;
+  left:0;
+  width:100%;
+  display:none;
+  justify-content:center;
+  z-index:20;
+}
+.controls.show{display:flex}
+.controls button{
+  width:55px;height:50px;
+  border:none;
+  border-radius:50%;
+  margin:0 14px;
+  font-size:22px;
+  cursor:pointer;
+  background:rgba(255,255,255,.9);
+  color:#ff5f9e;
+}
+.controls button:disabled{
+  background:rgba(255,255,255,.3);
+  color:#aaa;
+  cursor:not-allowed;
+}
+
+/* LAST SLIDE */
+.last-slide{
+  display:none;
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  padding:40px;
+  font-size:20px;
+  line-height:1.6;
+  color:#ffd6e7;
+  animation:lastFade 1s ease forwards;
+}
+@keyframes lastFade{
+  from{opacity:0;transform:scale(0.95)}
+  to{opacity:1;transform:scale(1)}
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="stars"></div>
+<div class="hny" id="hny">Happy New Year Baby ❤️</div>
+
+<!-- ENVELOPE -->
+<div class="envelope" id="envelope">
+  <div class="envelope-box" onclick="openSlider()">CLICK HERE BABY ❤️</div>
+</div>
+
+<!-- SLIDER -->
+<div class="slider" id="slider">
+  <div class="item active">
+    <div class="photo" style="background-image:url('15.jpg')"></div>
+    <div class="desc">
+HAHAHAHAHA nakakatuwa lang kasi eto yungg time na akala natin tapos na yung satin, imagine di pako nanliligaw neto pero seloso na? Hhahaha anlala lang eh no? buti nalang talaga parehas di us bumitaw nun, yun yung unang struggle natin eh HAHAHAHA cutieee
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('20.jpg')"></div>
+    <div class="desc">
+picture not related pero guusto ko lang i-share, naalala mo yung 2nd time na maghihiwalay na tayo? nung nalaman mo iba religon ko non? sabi mo need na natin pakawalan yung isat isa pero i still chose to not to do it kasi mahal narin kita, also naalala ko rin yungg first iloveyou mo sakin hihi, i was supposed to say it first kaso ambilis mo mag sabi nun eh, kaya that time naglakas nako mangligaw hihihi.
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('14.jpg')"></div>
+    <div class="desc">
+eto naman yung first laro natin sa magic chess (not sure if first ha) akala ko siguro ikaw lang meron screenshot grrr. Ang saya ko nga here kasi couple pic us here tapos panalo sa tag team yay ang saya.
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('13.jpg')"></div>
+    <div class="desc">
+until finally lahat ng plan natin nag magkita ay magkatotoo, eto yung pinili kong pic kasi why not? its my fav pic kasi ramdam ko ikaw ughhh. Jokes aside, feel ko maback hug ka which is pangarap natin both, parang nakumpleto na yung pagkatao ko dito eh, anasaya saya ko lang hihihihii.
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('12.jpg')"></div>
+    <div class="desc">
+Nakakatuwa lang ano? after ng meetup natin hindi kana nahihiya mag pakita, yung tipong confident kana kahit bagong gising, walang ligo, walang ayos, antok, pagod, walang kain or ano pa man, dito ko na feel na hindi comfy kana sakin and i hope na matuloy tuloy pa to soon, im looking forward din po sa mga susunod na meet up natin mahal ko :>>>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('11.jpg')"></div>
+    <div class="desc">
+TADAAAAA!!! wala manlang tayo pic sa photobooth atleast magagawa natin yan soon hihi, ang pretty mo eh no? looking forward sa marami pa nating pictures mahal ko and im so lucky and you're the best thing that's happened to me and im looking forward na magkita pa tayo soon, HAPPIEST NEWYEAR MAHAL KO, let's enjoy this year filled with joy and happiness, more blessings and happenings to come pa satin mahal ko, iloveyouuuu &lt;3
+    </div>
+  </div>
+
+  <!-- LAST SLIDE -->
+  <div class="last-slide" id="last-slide">
+you lover, bestfriend, asawa, kaaway, mentor, anak, tatay at lahat lahat na  
+-DAX  
+
+<br><br>
+iloveyousomuch mahal ko, happiest newyear, magtatagal pa tayo ha? hindi lang to yung newyear na mararanasan natin, gusto ko pati apo natin masasamahan natin sa newyear okay? iloveyousomuch from the bottom of my heart, let's look forward sa taong punong puno ng pagmamahalan
+  </div>
+</div>
+
+<!-- CONTROLS -->
+<div class="controls" id="controls">
+  <button class="prev"><i class="fa-solid fa-heart"></i></button>
+  <button class="next"><i class="fa-solid fa-wand-magic-sparkles"></i></button>
+</div>
+
+<!-- MUSIC -->
+<audio id="bg-music" src="SUGARCANE - Leonora (Official Lyric Video).mp3"></audio>
+
+<script>
+/* SNOW */
+for(let i=0;i<80;i++){
+  let s=document.createElement('div');
+  s.className='snowflake';
+  s.innerHTML='❄';
+  s.style.left=Math.random()*100+'vw';
+  s.style.fontSize=Math.random()*14+8+'px';
+  s.style.animationDuration=Math.random()*6+4+'s';
+  s.style.animationDelay=Math.random()*5+'s';
+  document.body.appendChild(s);
+}
+
+/* FIREWORKS */
+function firework(){
+  const f=document.createElement('div');
+  f.className='firework';
+  f.style.left=Math.random()*100+'vw';
+  f.style.top=Math.random()*60+'vh';
+  f.style.background=`hsl(${Math.random()*360},100%,60%)`;
+  document.body.appendChild(f);
+  setTimeout(()=>f.remove(),1200);
+}
+
+/* INTRO */
+window.onload=()=>{
+  setTimeout(()=>hny.style.opacity=1,800);
+  setInterval(firework,700);
+  setTimeout(()=>{
+    hny.style.opacity=0;
+    envelope.style.opacity=1;
+    envelope.style.pointerEvents='auto';
+  },4000);
+};
+
+const items=document.querySelectorAll('.item');
+const lastSlide=document.getElementById('last-slide');
+const controls=document.getElementById('controls');
+let index=0;
+let sliding=false;
+
+function showSlide(i){
+  if(sliding) return;
+  sliding=true;
+
+  items.forEach(el=>{
+    el.classList.remove('active','animate');
+    el.style.display='none';
+  });
+  lastSlide.style.display='none';
+
+  setTimeout(()=>{
+    if(i<items.length){
+      items[i].style.display='flex';
+      items[i].classList.add('active','animate');
+      controls.querySelector('.next').disabled=false;
+    } else {
+      lastSlide.style.display='flex';
+      controls.querySelector('.next').disabled=true; // cannot go forward
+    }
+    controls.querySelector('.prev').disabled = i===0;
+    sliding=false;
+  },300);
+}
+
+document.querySelector('.next').onclick=()=>{
+  if(index<items.length) index++;
+  showSlide(index);
+};
+document.querySelector('.prev').onclick=()=>{
+  if(index>0) index--;
+  showSlide(index);
+};
+
+function openSlider(){
+  envelope.style.display='none';
+  document.getElementById('slider').classList.add('show');
+  controls.classList.add('show');
+
+  const music=document.getElementById('bg-music');
+  music.volume=0.4;
+  music.play();
+
+  showSlide(index);
+}
+
+/* SWIPE */
+let startX=0;
+document.getElementById('slider').addEventListener('touchstart',e=>startX=e.touches[0].clientX);
+document.getElementById('slider').addEventListener('touchend',e=>{
+  let endX=e.changedTouches[0].clientX;
+  if(startX-endX>50)document.querySelector('.next').click();
+  if(endX-startX>50)document.querySelector('.prev').click();
+});
+</script>
+
+</body>
+</html>
